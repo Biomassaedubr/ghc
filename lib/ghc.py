@@ -148,7 +148,7 @@ def toc(course,short=True,concepts=True,bare=False,numbered=True):
         t += base.format(s,p["title"],part)
         n = 1
         for sub in p["parts"]:
-            form = "  {}. [**{}**]({}/README.md#{})\n"
+            form = "  {}. [**{}**]({}/README.md#-{})\n"
             _p = p["parts"][n-1]
             title = _p["title"]
             concepts = _p["concepts"]
@@ -217,11 +217,9 @@ def link_header(path="README.md",main="/README.md"):
     with open(path,"r+") as f:
         text = f.read()
         text = h1link(text,main)
-        if "\n## Table of Contents\n" in text:
-            text = h2link(text,'#table-of-contents')
-            text = h3link(text,'#table-of-contents')
-        else:
-            text = hunlink(text)
+        text = hunlink(text)
+        text = h2link(text,'#')
+        text = h3link(text,'#')
         f.seek(0)
         f.write(text)
         f.truncate()
