@@ -148,7 +148,7 @@ def toc(course,short=True,concepts=True,bare=False,numbered=True):
         t += base.format(s,p["title"],part)
         n = 1
         for sub in p["parts"]:
-            form = "  {}. [**{}**]({}/README.md#-{})\n"
+            form = "  {}. [**{}**]({}/README.md#user-content--{})\n"
             _p = p["parts"][n-1]
             title = _p["title"]
             concepts = _p["concepts"]
@@ -254,7 +254,7 @@ def update_toc(path="README.md"):
                 subs[part].append(sub)
         n = 1
         for part in parts:
-            form = "{}. [**{}**](#-{})\n"
+            form = "{}. [**{}**](#user-content--{})\n"
             toc += form.format(n,part,title_to_link(part))
             s = 1
             for sub in subs[part]:
