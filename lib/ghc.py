@@ -6,6 +6,9 @@ import stat
 
 # temporary until we make a Course class
 _course = None
+_words = 0
+_lines = 0
+_images = 0
 
 def warn(message):
     print("WARNING:",message,file=sys.stderr)
@@ -216,6 +219,17 @@ def link_header(path="README.md",main="/README.md"):
     """Links main h1 header to main and h2 and h3 to TOC."""
     with open(path,"r+") as f:
         text = f.read()
+        words = len(text.split())
+        lines = len(text.split('\n'))
+        images = text.count('![]')
+        global _words
+        global _images
+        global _lines
+        _words += words
+        _images += images
+        _lines += lines
+        form = '{} words={} lines={} images={}'
+        print(form.format(path, words, lines, images))
         text = h1link(text,main)
         text = hunlink(text)
         text = h2link(text,'#')
@@ -291,7 +305,11 @@ def update(top="."):
         update_tocs(top)
         link_headers(top)
         #create_precommit_hook(top)
-        print("GitHub Course Updated.")
+        pages = _lines / 60 + _images * .5
+        minutes = _words / 275 + _images * .333
+        print("GitHub Course Updated")
+        form = "pages={:.0f} words={} lines={} images={} minutes={:.0f}"
+        print(form.format(pages, _words, _lines, _images, minutes))
     except KeyError as e:
         warn("Missing key, need to update course.json? " + str(e))
     
